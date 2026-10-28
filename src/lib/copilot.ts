@@ -31,7 +31,7 @@ export function summarize(i: Inquiry): string {
 
 export function missingDetails(i: Inquiry): string[] {
   const out: string[] = []
-  if ((i.contactPref === 'Phone' || i.contactPref === 'Either') && !i.phone && !i.email) out.push('Phone number or email to reach them')
+  if (!i.phone) out.push('Phone number to call them back')
   if (!i.location) out.push('General area (city or county)')
   if (!i.ageBand) out.push('Age group of the person needing support')
   if (i.contactPref === 'No follow-up needed') out.push('Whether the visitor wants a follow-up at all')

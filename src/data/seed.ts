@@ -66,8 +66,8 @@ const HOUR = 3600_000
 
 // Fictional contact details only: 555-01xx is reserved for fiction; example.com never delivers.
 const contactFor = (pref: ContactPref, n: number) => ({
-  phone: pref === 'Email' ? undefined : `(301) 555-01${String(n % 100).padStart(2, '0')}`,
-  email: pref === 'Phone' ? undefined : `visitor${n}@example.com`,
+  phone: `(301) 555-01${String(n % 100).padStart(2, '0')}`,
+  email: pref !== 'Email' && pref !== 'Either' ? undefined : `visitor${n}@example.com`,
 })
 const iso = (ms: number) => new Date(ms).toISOString()
 

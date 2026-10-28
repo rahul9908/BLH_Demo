@@ -146,7 +146,7 @@ export default function Inbox() {
               <Link to={`/employee/inquiry/${i.id}`} className="grid min-w-0 flex-1 gap-1 md:grid-cols-[160px_1fr_220px] md:gap-4">
                 <div className="min-w-0">
                   <p className={`text-sm ${i.unread ? 'font-bold' : 'font-medium'}`}>{i.id}{i.unread && <span className="sr-only"> (unread)</span>}</p>
-                  <p className="truncate text-xs text-slate-500">{i.alias}</p>
+                  <p className="truncate text-xs text-slate-500">{i.alias}{i.phone && ` · ${i.phone}`}</p>
                   {!dense && <div className="mt-1 flex flex-wrap gap-1"><StatusPill status={i.status} />{i.urgency === 'This week' && <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-semibold text-rose-800 dark:bg-rose-900/50 dark:text-rose-200">This week</span>}</div>}
                 </div>
                 <div className="min-w-0">

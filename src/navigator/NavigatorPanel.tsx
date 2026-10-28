@@ -125,7 +125,7 @@ export default function NavigatorPanel({ open, onClose, contextProgramId }: { op
     const base = storyInquiry(Date.now() + 2 * 86400_000) // shift story so the transcript is "now"
     const id = `DEMO-${nextSeq()}`
     const at = now()
-    addInquiry({ ...base, id, alias: 'Sample visitor (alias)', createdAt: at, updatedAt: at, status: 'New', assignee: undefined, approvedPrograms: [], tasks: [], notes: [], unread: true, rating: undefined, firstResponseAt: undefined, transcript: base.transcript.map((m) => ({ ...m, id: `${id}-${m.id}` })), activity: [{ id: uid(), at, actor: 'Visitor (demo)', text: 'One-click sample inquiry sent from Care Navigator' }] })
+    addInquiry({ ...base, id, alias: 'Sam Carter (sample)', createdAt: at, updatedAt: at, status: 'New', assignee: undefined, approvedPrograms: [], tasks: [], notes: [], unread: true, rating: undefined, firstResponseAt: undefined, transcript: base.transcript.map((m) => ({ ...m, id: `${id}-${m.id}` })), activity: [{ id: uid(), at, actor: 'Visitor (demo)', text: 'One-click sample inquiry sent from Care Navigator' }] })
     setNav({ ...emptyNav(), submittedId: id })
   }
 
@@ -324,7 +324,7 @@ function buildDraft(nav: NavSession): Draft {
     alias: '',
     summary: nav.description ?? '',
     categories: nav.categories,
-    contactPref: (CONTACT_PREFS as readonly string[]).includes(nav.answers.contactPref ?? '') ? (nav.answers.contactPref as ContactPref) : 'Either',
+    contactPref: (CONTACT_PREFS as readonly string[]).includes(nav.answers.contactPref ?? '') ? (nav.answers.contactPref as ContactPref) : 'Phone',
     urgency: (URGENCIES as readonly string[]).includes(nav.answers.urgency ?? '') ? (nav.answers.urgency as Urgency) : 'Just exploring',
     location: nav.answers.location,
     ageBand: nav.answers.ageBand,
@@ -350,31 +350,29 @@ function DraftForm({ draft, setDraft, errors, onSubmit }: { draft: Draft; setDra
 
       <fieldset className="space-y-3 rounded-xl border border-ink/10 p-3 text-[1rem]">
         <legend className="px-1 text-[1.05em] font-bold">How can we reach you?</legend>
-        <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Best way to reach you">
-          {CONTACT_PREFS.map((c) => (
+        <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Best way to reach you">
+          {CONTACT_PREFS.slice(0, 3).map((c) => (
             <button key={c} type="button" role="radio" aria-checked={draft.contactPref === c} onClick={() => set('contactPref', c)}
               className={`rounded-xl border-2 px-3 py-2.5 text-sm font-semibold ${draft.contactPref === c ? 'border-leaf-600 bg-leaf-50 text-leaf-700' : 'border-ink/15 bg-white'}`}>
-              {c === 'Either' ? 'Phone or email' : c === 'No follow-up needed' ? 'No call back' : c}
+              {c === 'Either' ? 'Either one' : c}
             </button>
           ))}
         </div>
-        {draft.contactPref !== 'No follow-up needed' && <>
+        <>
           {/* autoComplete off: keep Chrome from filling in a real saved name or number in this demo */}
           <label className="block"><span className="font-semibold">Your name</span>
             <input className="input mt-1 text-base" autoComplete="off" value={draft.alias} onChange={(e) => set('alias', e.target.value)} placeholder="First name is fine" />
           </label>
-          {draft.contactPref !== 'Email' && (
-            <label className="block"><span className="font-semibold">Phone number{draft.contactPref === 'Phone' ? '' : ' (or email below)'}</span>
-              <input className="input mt-1 text-base" type="tel" inputMode="tel" autoComplete="off" value={draft.phone ?? ''} onChange={(e) => set('phone', e.target.value)} placeholder="(301) 555-0123" />
-            </label>
-          )}
+          <label className="block"><span className="font-semibold">Phone number</span>
+            <input className="input mt-1 text-base" type="tel" inputMode="tel" autoComplete="off" value={draft.phone ?? ''} onChange={(e) => set('phone', e.target.value)} placeholder="(301) 555-0123" />
+          </label>
           {draft.contactPref !== 'Phone' && (
             <label className="block"><span className="font-semibold">Email</span>
               <input className="input mt-1 text-base" type="email" autoComplete="off" value={draft.email ?? ''} onChange={(e) => set('email', e.target.value)} placeholder="name@example.com" />
             </label>
           )}
           <p className="text-xs text-ink/55">Demo only: please use a made-up name and number, like (301) 555-0123.</p>
-        </>}
+        </>
       </fieldset>
 
       <details>

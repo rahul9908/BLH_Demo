@@ -77,20 +77,20 @@ describe('safety checks', () => {
 })
 
 describe('inquiry schema', () => {
-  const draft: Draft = { alias: '', summary: 'Need help with housing applications', categories: ['Housing'], contactPref: 'Email', email: 'visitor@example.com', urgency: 'Within a few weeks', suggestedPrograms: ['housing'], openQuestions: [], nextSteps: [], consent: true }
+  const draft: Draft = { alias: 'Dana', phone: '(301) 555-0142', summary: 'Need help with housing applications', categories: ['Housing'], contactPref: 'Email', email: 'visitor@example.com', urgency: 'Within a few weeks', suggestedPrograms: ['housing'], openQuestions: [], nextSteps: [], consent: true }
   it('accepts a valid draft and builds an inbox record', () => {
     expect(validateDraft(draft)).toEqual([])
     const inq = inquiryFromDraft(draft, [], 1234, new Date('2026-01-01T00:00:00Z'))
-    expect(inq).toMatchObject({ id: 'DEMO-1234', status: 'New', unread: true, source: 'Care Navigator', alias: 'Demo Visitor 1234' })
+    expect(inq).toMatchObject({ id: 'DEMO-1234', status: 'New', unread: true, source: 'Care Navigator', alias: 'Dana' })
   })
   it('requires a way to reach the visitor that matches their preference', () => {
     expect(validateDraft({ ...draft, email: '' }).join()).toMatch(/email/)
     expect(validateDraft({ ...draft, email: 'not-an-email' }).join()).toMatch(/email/)
+    expect(validateDraft({ ...draft, alias: ' ' }).join()).toMatch(/name/)
+    expect(validateDraft({ ...draft, phone: '' }).join()).toMatch(/phone/)
     expect(validateDraft({ ...draft, contactPref: 'Phone', phone: '555-01' }).join()).toMatch(/phone/)
-    expect(validateDraft({ ...draft, contactPref: 'Phone', phone: '(301) 555-0123' })).toEqual([])
-    expect(validateDraft({ ...draft, contactPref: 'Either', email: '', phone: '' }).join()).toMatch(/phone number or an email/)
-    expect(validateDraft({ ...draft, contactPref: 'Either', email: '', phone: '301-555-0123' })).toEqual([])
-    expect(validateDraft({ ...draft, contactPref: 'No follow-up needed', email: '' })).toEqual([])
+    expect(validateDraft({ ...draft, contactPref: 'Phone', email: '', phone: '301-555-0123' })).toEqual([])
+    expect(validateDraft({ ...draft, contactPref: 'Either', email: '' })).toEqual([])
     expect(inquiryFromDraft({ ...draft, contactPref: 'Phone', phone: ' (301) 555-0123 ' }, [], 1).phone).toBe('(301) 555-0123')
   })
   it('rejects missing consent, short summary, unknown program, and sensitive data', () => {

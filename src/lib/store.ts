@@ -25,7 +25,7 @@ export interface DemoState {
   kbReviews?: Record<string, { status: string; by: string; at: string }>
 }
 
-export const STORAGE_KEY = 'blh-care-navigator-demo-v5'
+export const STORAGE_KEY = 'blh-care-navigator-demo-v6'
 export const emptyNav = (): NavSession => ({ messages: [], step: -1, categories: [], answers: {}, programIds: [] })
 const fresh = (): DemoState => ({ version: 1, inquiries: seedInquiries(), audit: [], nav: emptyNav(), theme: 'light' })
 
