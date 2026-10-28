@@ -1,0 +1,23 @@
+# Implementation checklist
+
+- [x] Study the public site → `SOURCES.md` (pages, 10 programs, contact info, design tokens)
+- [x] Vite + React 18 + TypeScript + Tailwind, HashRouter, `base` for GitHub Pages, Actions deploy workflow
+- [x] Typed `programCatalog` with source URL, last-verified date, support areas, caveats, contact
+- [x] Public pages: Home, About, Programs, Program detail ×10, Who We Serve, Community, Careers, Contact, FAQ, Privacy/Demo notice
+- [x] Care Navigator panel: starter chips, guided questions (area, age band, follow-up timeframe, contact pref, accessibility), page context
+- [x] "Help me describe this better": Original / Suggested with Use suggestion · Edit · Keep mine (never auto-applied)
+- [x] Hybrid answers + program cards (why, what to ask, source, next step, uncertainty)
+- [x] Editable draft inquiry, consent checkbox, validation, save to local demo inbox; one-click sample inquiry
+- [x] Safety: emergency notice, sensitive-data blocking (SSN/DOB/IDs/diagnosis), prompt-injection guardrail
+- [x] Copy / download summary, reset, text-size control, optional rating
+- [x] Employee portal (`/employee`): demo role login, Overview KPIs, Inbox (search, 7 filters, 3 sorts, density, bulk actions, CSV/JSON export)
+- [x] Inquiry detail: 3 columns / mobile tabs, full transcript, origin badges, AI provenance, approve programs
+- [x] Workflow: assign, status transitions, tags, notes, tasks (create/complete), activity timeline, audit log
+- [x] AI Copilot (draft reply, summary, next questions, missing details, pages) — drafts only
+- [x] Analytics (daily/weekly volume, categories, programs, workload, latency, unresolved, satisfaction) with chart/table toggle and definitions
+- [x] Knowledge base with mock review workflow; Settings: role switch, generate cases, reset, walkthrough, dark mode
+- [x] 56 synthetic seed inquiries incl. end-to-end story `DEMO-1000`
+- [x] Unit tests (21): matching, rewrite preservation, safety, schema, transitions, aggregation, CSV, persistence
+- [ ] Playwright E2E (journey was verified manually in a browser; add `@playwright/test` when CI time allows)
+- [ ] Translation toggle (text-size control shipped instead)
+- [ ] Real backend in `/server` (API contract documented in README)
